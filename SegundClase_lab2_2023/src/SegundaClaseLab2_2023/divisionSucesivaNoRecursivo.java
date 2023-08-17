@@ -3,7 +3,7 @@ package SegundaClaseLab2_2023;
 public class divisionSucesivaNoRecursivo {
     public static void main(String[] args) {
         int dividendo = 25;
-        int divisor = 4;
+        int divisor = 8;
 
         int cociente = divisionSucesiva(dividendo, divisor);
         System.out.println("Cociente: " + cociente);
@@ -15,9 +15,8 @@ public class divisionSucesivaNoRecursivo {
             result++;
             aux= aux - divisor;
         }
-        if(aux<0){
             result--;
-        }
+
         return result;
     }
 }
