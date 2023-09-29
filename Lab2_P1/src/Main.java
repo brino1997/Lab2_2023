@@ -30,7 +30,7 @@ class HospitalApp {
                     actualizarInfoPaciente(scanner);
                     break;
                 case 4:
-                   // consultarHistorialMedico(scanner);
+                    consultarHistorialMedico(scanner);
                     break;
                 case 5:
                     nuevoHistorialMedico(scanner);
@@ -39,9 +39,14 @@ class HospitalApp {
                     cargarDatosDeContacto();
                     break;
                 case 7:
-                    //guardarRecuperarPacientes("guardar");
+                    guardarRecuperarPacientes("guardar");
                     break;
-
+                case 8:
+                    guardarRecuperarPacientes("recuperar");
+                    break;
+                case 9:
+                    System.out.println("Saliendo del programa.");
+                    break;
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
                     break;
@@ -167,6 +172,22 @@ class HospitalApp {
         }
     }
 
+    private static void consultarHistorialMedico(Scanner scanner) {
+        System.out.print("Indique el DNI del paciente a buscar: ");
+        String dni = scanner.nextLine();
+
+        // Buscar al paciente por su DNI
+        Paciente pacienteEncontrado = buscarPacientePorDNI(dni);
+
+        if (pacienteEncontrado != null) {
+            System.out.println("HISTORIAL MÉDICO:");
+            for (String evento : pacienteEncontrado.historialMedico) {
+                System.out.println(evento);
+            }
+        } else {
+            System.out.println("No se encontró ningún paciente con el DNI proporcionado.");
+        }
+    }
 
     private static Paciente buscarPacientePorDNI(String dni) {
         for (Paciente paciente : pacientes) {
@@ -190,6 +211,24 @@ class HospitalApp {
         }
     }
 
+    private static void guardarRecuperarPacientes(String accion) {
+        if (accion.equals("guardar")) {
+            try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("pacientes.dat"))) {
+                salida.writeObject(pacientes);
+                System.out.println("Pacientes guardados en archivo exitosamente.");
+            } catch (IOException e) {
+                System.err.println("Error al guardar los pacientes en el archivo: " + e.getMessage());
+            }
+        } else if (accion.equals("recuperar")) {
+            try (ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("pacientes.dat"))) {
+                pacientes = (ArrayList<Paciente>) entrada.readObject();
+                System.out.println("Pacientes recuperados desde archivo exitosamente.");
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Error al cargar los pacientes desde el archivo: " + e.getMessage());
+            }
+        }
+    }
+}
 
 // Clase Doctor
 class Doctor extends Persona {
@@ -238,4 +277,7 @@ class Paciente extends Persona implements Informacion, Serializable {
     }
 }
 
-
+// Interfaz Informacion
+interface Informacion {
+    void verHistorialDeEventos();
+}

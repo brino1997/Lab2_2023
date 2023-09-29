@@ -42,7 +42,7 @@ public class Persona {
 class Doctor extends Persona {
     private String especialidad;
 
-    public Doctor(String nombre, String dni, LocalDate fechaNacimiento, String especialidad) {
+    public Doctor(String nombre, String dni, Date fechaNacimiento, String especialidad) {
         super(nombre, dni, fechaNacimiento);
         this.especialidad = especialidad;
     }
@@ -55,4 +55,6 @@ class Doctor extends Persona {
     public void setEspecialidad(String especialidad) {
         this.especialidad = especialidad;
     }
+
+
 }
